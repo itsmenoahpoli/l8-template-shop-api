@@ -36,13 +36,12 @@ class OrderRepository implements IOrderRepository
         try
         {
             $referenceCode = $this->generateReferenceCode();
-            $totalShippingFee = 200;
-            $totalAmount = 0;
+            $totalShippingFee = $data['total_amount'] + 200;
+            json_decode($data['items']);
 
             return $this->modelQueryService->create(array_merge($data, [
                 'reference_code' => $referenceCode,
                 'total_shipping_fee' => $totalShippingFee,
-                'total_amount' => $totalAmount,
             ]));
         } catch (Exception $e)
         {
@@ -65,11 +64,16 @@ class OrderRepository implements IOrderRepository
     {
         try
         {
-            return $this->modelQueryService->get($id);
+            return $this->modelQueryService->get($id)->items;
         } catch (Exception $e)
         {
             throw $e->getMessage();
         }
+    }
+
+    public function calculateTotalAmount($items)
+    {
+
     }
 
     public function generateReferenceCode()

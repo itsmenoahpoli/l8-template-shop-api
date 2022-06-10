@@ -11,4 +11,8 @@ interface IOrderRepository
     public function get($id);
 
     public function update($id, $data);
+
+    public function calculateTotalAmount($orders);
+
+    public function generateReferenceCode();
 }
