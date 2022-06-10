@@ -61,7 +61,7 @@ class ProductRepository implements IProductRepository
             }
 
             $this->productMonitoringRepository->create([
-                'type' => 'in',
+                'type' => 'IN',
                 'product_id' => $product->id
             ]);
 

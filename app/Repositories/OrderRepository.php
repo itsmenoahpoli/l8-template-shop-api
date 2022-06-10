@@ -5,19 +5,23 @@ namespace App\Repositories;
 use App\Services\ModelQueryService;
 use App\Models\Orders\Order;
 use App\Repositories\Interfaces\IOrderRepository;
+use App\Repositories\ProductMonitoringRepository;
 
 use Str;
+use DB;
 
 class OrderRepository implements IOrderRepository
 {
     public $model;
     public $modelRelationships = ['user', 'order_payment'];
     public $modelQueryService;
+    public $productMonitoringModel;
 
-    public function __construct(Order $model)
+    public function __construct(Order $model, ProductMonitoringRepository $productMonitoringModel)
     {
         $this->model = $model;
         $this->modelQueryService = new ModelQueryService($this->model, $this->modelRelationships);
+        $this->productMonitoringModel = $productMonitoringModel;
     }
 
     public function index($query)
@@ -33,18 +37,36 @@ class OrderRepository implements IOrderRepository
 
     public function create($data)
     {
+        DB::beginTransaction();
         try
         {
+
+
             $referenceCode = $this->generateReferenceCode();
             $totalShippingFee = $data['total_amount'] + 200;
+            $itemIds = json_decode($data['item_ids']);
             json_decode($data['items']);
 
-            return $this->modelQueryService->create(array_merge($data, [
+            $order = $this->modelQueryService->create(array_merge($data, [
                 'reference_code' => $referenceCode,
                 'total_shipping_fee' => $totalShippingFee,
             ]));
+
+            foreach ($itemIds as $itemId)
+            {
+                $this->productMonitoringModel->create([
+                    'type' => 'SOLD',
+                    'order_id' => $order->id,
+                    'product_id' => $itemId
+                ]);
+            }
+
+            DB::commit();
+
+            return $order;
         } catch (Exception $e)
         {
+            DB::rollback();
             throw $e->getMessage();
         }
     }
