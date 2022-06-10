@@ -9,7 +9,7 @@ use App\Repositories\Interfaces\IProductMonitoringRepository;
 class ProductMonitoringRepository implements IProductMonitoringRepository
 {
     public $model;
-    public $modelRelationships = ['product'];
+    public $modelRelationships = ['product', 'order'];
     public $modelQueryService;
 
     public function __construct(ProductMonitoring $model)

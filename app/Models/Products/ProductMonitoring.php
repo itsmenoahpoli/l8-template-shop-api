@@ -16,4 +16,9 @@ class ProductMonitoring extends Model
     {
         return $this->belongsTo('App\Models\Products\Product');
     }
+
+    public function order()
+    {
+        return $this->belongsTo('App\Models\Orders\Order');
+    }
 }
