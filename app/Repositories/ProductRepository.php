@@ -120,7 +120,7 @@ class ProductRepository implements IProductRepository
 
         $this->productImageModel->create([
             'product_id' => $productId,
-            'image_path' => env('APP_URL').$filepath.$filename
+            'image_path' => env('APP_URL').'storage/'.$filepath.$filename
         ]);
 
         Storage::disk('public')->put(

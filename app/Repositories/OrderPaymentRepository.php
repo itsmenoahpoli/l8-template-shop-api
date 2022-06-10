@@ -58,7 +58,7 @@ class OrderPaymentRepository implements IOrderPaymentRepository
         $this->modelQueryService->create([
             'user_id' => $userId,
             'order_id' => $order->id,
-            'image_path' => env('APP_URL').$filepath.$filename
+            'image_path' => env('APP_URL').'storage/'.$filepath.$filename
         ]);
 
         Storage::disk('public')->put(
