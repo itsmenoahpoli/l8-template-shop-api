@@ -10,6 +10,10 @@ use App\Http\Controllers\API\Products\ProductCategoriesController;
 use App\Http\Controllers\API\Products\ProductsController;
 use App\Http\Controllers\API\Products\ProductMonitoringController;
 
+// Orders
+use App\Http\Controllers\API\Orders\OrdersController;
+use App\Http\Controllers\API\Orders\OrderPaymentsController;
+
 
 // API Routes
 Route::group(['prefix' => 'v1'], function() {
@@ -17,10 +21,13 @@ Route::group(['prefix' => 'v1'], function() {
 
     });
 
-    Route::get('/product-monitoring', [ProductMonitoringController::class, 'index'])->name('api.product-monitoring');
+    Route::get('/product-monitoring', [ProductMonitoringController::class, 'index'])->name('product-monitoring.index');
 
     Route::apiResources([
         'product-categories' => ProductCategoriesController::class,
         'products' => ProductsController::class,
     ]);
+
+    Route::apiResource('orders', OrdersController::class)->except(['destroy']);
+    Route::apiResource('order-payments', OrdersController::class)->only(['index', 'store']);
 });
