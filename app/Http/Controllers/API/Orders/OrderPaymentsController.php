@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\OrderPaymentRepository;
 
-class OrdersController extends Controller
+class OrderPaymentsController extends Controller
 {
     protected $orderPaymentRepository;
 

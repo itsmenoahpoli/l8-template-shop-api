@@ -11,7 +11,7 @@ use Str;
 class OrderRepository implements IOrderRepository
 {
     public $model;
-    public $modelRelationships = ['user'];
+    public $modelRelationships = ['user', 'order_payment'];
     public $modelQueryService;
 
     public function __construct(Order $model)
@@ -64,16 +64,11 @@ class OrderRepository implements IOrderRepository
     {
         try
         {
-            return $this->modelQueryService->get($id)->items;
+            return $this->modelQueryService->get($id);
         } catch (Exception $e)
         {
             throw $e->getMessage();
         }
-    }
-
-    public function calculateTotalAmount($items)
-    {
-
     }
 
     public function generateReferenceCode()

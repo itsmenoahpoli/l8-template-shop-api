@@ -29,5 +29,5 @@ Route::group(['prefix' => 'v1'], function() {
     ]);
 
     Route::apiResource('orders', OrdersController::class)->except(['destroy']);
-    Route::apiResource('order-payments', OrdersController::class)->only(['index', 'store']);
+    Route::apiResource('order-payments', OrderPaymentsController::class)->only(['index', 'store']);
 });
