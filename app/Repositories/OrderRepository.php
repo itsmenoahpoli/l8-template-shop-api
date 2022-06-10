@@ -6,6 +6,8 @@ use App\Services\ModelQueryService;
 use App\Models\Orders\Order;
 use App\Repositories\Interfaces\IOrderRepository;
 
+use Str;
+
 class OrderRepository implements IOrderRepository
 {
     public $model;
@@ -33,7 +35,15 @@ class OrderRepository implements IOrderRepository
     {
         try
         {
-            return $this->modelQueryService->create($data);
+            $referenceCode = $this->generateReferenceCode();
+            $totalShippingFee = 200;
+            $totalAmount = 0;
+
+            return $this->modelQueryService->create(array_merge($data, [
+                'reference_code' => $referenceCode,
+                'total_shipping_fee' => $totalShippingFee,
+                'total_amount' => $totalAmount,
+            ]));
         } catch (Exception $e)
         {
             throw $e->getMessage();
@@ -60,5 +70,10 @@ class OrderRepository implements IOrderRepository
         {
             throw $e->getMessage();
         }
+    }
+
+    public function generateReferenceCode()
+    {
+        return strtoupper('OD-'.Str::random(10));
     }
 }
