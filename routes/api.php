@@ -19,6 +19,7 @@ use App\Http\Controllers\API\Orders\OrderPaymentsController;
 Route::group(['prefix' => 'v1'], function() {
     Route::group(['prefix' => 'auth'], function() {
         Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+        Route::post('register', [AuthController::class, 'register'])->name('auth.register');
     });
 
     Route::get('/product-monitoring', [ProductMonitoringController::class, 'index'])->name('product-monitoring.index');

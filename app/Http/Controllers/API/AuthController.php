@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
+use App\Models\User;
+
 use Auth;
 
 class AuthController extends Controller
@@ -48,5 +50,15 @@ class AuthController extends Controller
     public function logout(Request $request) : JsonResponse
     {
 
+    }
+
+    public function register(Request $request) : JsonResponse
+    {
+        $user = User::create($request->all());
+
+        return response()->json(
+            $user,
+            201
+        );
     }
 }
