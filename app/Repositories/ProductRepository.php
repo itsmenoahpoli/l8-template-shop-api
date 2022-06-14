@@ -47,17 +47,17 @@ class ProductRepository implements IProductRepository
         try
         {
             $sku = $this->generateSKU();
-            $images = $data['images'];
+            $image = $data['p_image'];
+
+            // return $images;
 
             unset($data['images']);
+            unset($data['p_image']);
             $product = $this->modelQueryService->create(array_merge($data, ['sku' => $sku]));
 
-            if (count($images) > 0)
+            if ($image)
             {
-                foreach ($images as $image)
-                {
-                    $this->uploadImage($image, $sku, $product->id);
-                }
+                $this->uploadImage($image, $sku, $product->id);
             }
 
             $this->productMonitoringRepository->create([

@@ -41,7 +41,6 @@ class OrderRepository implements IOrderRepository
         try
         {
 
-
             $referenceCode = $this->generateReferenceCode();
             $totalShippingFee = $data['total_amount'] + 200;
             $itemIds = json_decode($data['item_ids']);
@@ -51,6 +50,9 @@ class OrderRepository implements IOrderRepository
                 'reference_code' => $referenceCode,
                 'total_shipping_fee' => $totalShippingFee,
             ]));
+
+
+            return $data['items'];
 
             foreach ($itemIds as $itemId)
             {
