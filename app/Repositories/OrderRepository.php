@@ -51,9 +51,6 @@ class OrderRepository implements IOrderRepository
                 'total_shipping_fee' => $totalShippingFee,
             ]));
 
-
-            return $data['items'];
-
             foreach ($itemIds as $itemId)
             {
                 $this->productMonitoringModel->create([
